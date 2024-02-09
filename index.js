@@ -6,7 +6,6 @@ for (let i=0; i<9; i++) {
 }
 
 console.log(grid);
-
 document.querySelector('h1').innerHTML = (xTurn) ? 'X Turn' : 'O Turn';
 let boxes = document.querySelectorAll('.grid-container div');
 
@@ -35,21 +34,23 @@ for (let boxNumber = 0; boxNumber<9; boxNumber++) {
         xTurn = !xTurn;
       }
     }
+
+    let winning_lines = getWinningLines();
     
-    if (hasSomeoneWon()) {
-      declareWinner();
-      gameOver = true;
+    if (winning_lines.length != 0) {
+      declareWinner(winning_lines);
+      setGameOver();
       return;
     }
     if (allFull()) {
-      gameOver = true;
+      setGameOver();
       document.querySelector('h1').innerHTML = 'DRAW';
       document.querySelector('.grid-container').style.opacity = 0;
       console.log(`Match draw.`);
-      gameOver = true;
       return;
     }
     document.querySelector('h1').innerHTML = (xTurn) ? 'X Turn' : 'O Turn';
+    
     
   }
   document.querySelector('#reset').onclick = () => {
@@ -59,6 +60,7 @@ for (let boxNumber = 0; boxNumber<9; boxNumber++) {
       item.style.opacity = 1;
     })
     document.querySelector('.grid-container').style.opacity = 1;
+    document.querySelector('#reset').style.backgroundColor = '#222';
     xTurn = true;
     gameOver = false;
     document.querySelector('h1').innerHTML = (xTurn) ? 'X Turn' : 'O Turn';
@@ -66,6 +68,13 @@ for (let boxNumber = 0; boxNumber<9; boxNumber++) {
   }
 }
 
+function setGameOver() {
+    console.log("GAMEOVER");
+    document.querySelector('#reset').style.backgroundColor = 'orange';
+}
+
+if (gameOver) {
+}
 function allFull() {
   for (let i=0; i<9; i++) {
     if (grid[i] === undefined) return false;
@@ -87,16 +96,14 @@ function hasSomeoneWon() {
   if (grid[2] !== undefined && grid[2]===grid[4] && grid[4]===grid[6]) {return true;}
   return false;
 }
-function declareWinner() {
-  highlightLine();
-  // document.querySelector('.grid-container').style.opacity = 0;
+function declareWinner(winning_lines) {
+  highlightLine(winning_lines);
   const winner = (!xTurn) ? 'X Won' : 'O Won';
   console.log(`${winner}`);
   document.querySelector('h1').innerHTML = winner;
 }
 
-function highlightLine() {
-  let boxes_to_highlight = getHighlight();
+function highlightLine(boxes_to_highlight) {
   console.log(boxes_to_highlight);
   boxes_to_highlight.forEach(num => {
     let box = boxes[num];
@@ -104,7 +111,7 @@ function highlightLine() {
   });
 }
 
-function getHighlight() {
+function getWinningLines() {
   let boxes_to_highlight = [];
   for (let i=0; i<3; i++) {
     if (grid[i] !== undefined && grid[i]===grid[i+3] && grid[i]===grid[i+6]) {
