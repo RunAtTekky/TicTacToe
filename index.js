@@ -13,29 +13,18 @@ for (let boxNumber = 0; boxNumber<9; boxNumber++) {
   let item = boxes[boxNumber];
   item.onclick = () => {
     if (gameOver) return;
-    if (xTurn) {
-      if (grid[boxNumber] === 'x' || grid[boxNumber] ==='o') {
-        console.log('Already used');
-      }
-      else {
-        grid[boxNumber] = 'x';
-        item.innerHTML = '<p>x</p>';
-        console.log('x played his move');
-        xTurn = !xTurn;
-      }
-    } else {
-      if (grid[boxNumber] === 'x' || grid[boxNumber] ==='o') {
-        console.log('Already used');
-      }
-      else {
-        grid[boxNumber] = 'o';
-        item.innerHTML = '<p>o</p>';
-        console.log('o played his move');
-        xTurn = !xTurn;
-      }
-    }
 
-    let winning_lines = getWinningLines();
+    if (grid[boxNumber] === 'x' || grid[boxNumber] ==='o') {
+      console.log('Already used');
+      return;
+    }
+    const player = (xTurn) ? 'x' : 'o';
+    grid[boxNumber] = player;
+    item.innerHTML = `<p>${player}</p>`;
+    console.log(`${player} played his move`);
+    xTurn = !xTurn;
+    
+    const winning_lines = getWinningLines();
     
     if (winning_lines.length != 0) {
       declareWinner(winning_lines);
@@ -49,10 +38,10 @@ for (let boxNumber = 0; boxNumber<9; boxNumber++) {
       console.log(`Match draw.`);
       return;
     }
+
     document.querySelector('h1').innerHTML = (xTurn) ? 'X Turn' : 'O Turn';
-    
-    
   }
+
   document.querySelector('#reset').onclick = () => {
     grid = [];
     boxes.forEach(item => {
@@ -73,8 +62,6 @@ function setGameOver() {
     document.querySelector('#reset').style.backgroundColor = 'orange';
 }
 
-if (gameOver) {
-}
 function allFull() {
   for (let i=0; i<9; i++) {
     if (grid[i] === undefined) return false;
@@ -140,3 +127,4 @@ function getWinningLines() {
   
   return boxes_to_highlight;
 }
+
