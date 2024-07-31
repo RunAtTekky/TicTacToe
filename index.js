@@ -1,12 +1,17 @@
-let grid = [];
+let grid = new Array(9);
 let xTurn = true;
 let gameOver = false;
-for (let i = 0; i < 9; i++) {
-  grid[i];
+
+function gameInit() {
+  grid = new Array(9);
+  xTurn = true;
+  gameOver = false;
+  document.querySelector("h1").innerHTML = xTurn ? "X Turn" : "O Turn";
 }
 
-console.log(grid);
-document.querySelector("h1").innerHTML = xTurn ? "X Turn" : "O Turn";
+gameInit();
+
+// get all the boxes in an array
 let boxes = document.querySelectorAll(".grid-container div");
 
 for (let boxNumber = 0; boxNumber < 9; boxNumber++) {
@@ -14,18 +19,18 @@ for (let boxNumber = 0; boxNumber < 9; boxNumber++) {
   item.onclick = () => {
     if (gameOver) return;
 
-    if (grid[boxNumber] === "x" || grid[boxNumber] === "o") {
+    if (grid[boxNumber] !== undefined) {
       console.log("Already used");
       return;
     }
-    const player = xTurn ? "x" : "o";
-    grid[boxNumber] = player;
-    item.innerHTML = `<p>${player}</p>`;
-    console.log(`${player} played his move`);
+    const playerMark = xTurn ? "x" : "o";
+    grid[boxNumber] = playerMark;
+    item.innerHTML = `<p>${playerMark}</p>`;
+    console.log(`${playerMark} played his move`);
+
     xTurn = !xTurn;
 
     const winning_lines = getWinningLines();
-
     if (winning_lines.length != 0) {
       declareWinner(winning_lines);
       setGameOver();
@@ -34,28 +39,25 @@ for (let boxNumber = 0; boxNumber < 9; boxNumber++) {
     if (allFull()) {
       setGameOver();
       document.querySelector("h1").innerHTML = "DRAW";
-      document.querySelector(".grid-container").style.opacity = 1;
+      document.querySelector(".grid-container").style.opacity = 0.6;
       console.log(`Match draw.`);
       return;
     }
 
     document.querySelector("h1").innerHTML = xTurn ? "X Turn" : "O Turn";
   };
-
-  document.querySelector("#reset").onclick = () => {
-    grid = [];
-    boxes.forEach((item) => {
-      item.innerHTML = "";
-      item.style.opacity = 1;
-    });
-    document.querySelector(".grid-container").style.opacity = 1;
-    document.querySelector("#reset").style.backgroundColor = "#222";
-    xTurn = true;
-    gameOver = false;
-    document.querySelector("h1").innerHTML = xTurn ? "X Turn" : "O Turn";
-    console.log("hehe you pressed me");
-  };
 }
+
+document.querySelector("#reset").onclick = () => {
+  grid = new Array(9);
+  boxes.forEach((item) => {
+    item.innerHTML = "";
+    item.style.opacity = 1;
+  });
+  document.querySelector(".grid-container").style.opacity = 1;
+  document.querySelector("#reset").style.backgroundColor = "#222";
+  gameInit();
+};
 
 function setGameOver() {
   gameOver = true;
@@ -72,6 +74,7 @@ function allFull() {
 
 function declareWinner(winning_lines) {
   highlightLine(winning_lines);
+
   const winner = !xTurn ? "X Won" : "O Won";
   console.log(`${winner}`);
   document.querySelector("h1").innerHTML = winner;
