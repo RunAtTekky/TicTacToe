@@ -23,29 +23,38 @@ for (let boxNumber = 0; boxNumber < 9; boxNumber++) {
       console.log("Already used");
       return;
     }
-    const playerMark = xTurn ? "x" : "o";
-    grid[boxNumber] = playerMark;
-    item.innerHTML = `<p>${playerMark}</p>`;
-    console.log(`${playerMark} played his move`);
+
+    markPlayer(item, boxNumber);
 
     xTurn = !xTurn;
 
-    const winning_lines = getWinningLines();
-    if (winning_lines.length != 0) {
-      declareWinner(winning_lines);
-      setGameOver();
-      return;
-    }
-    if (allFull()) {
-      setGameOver();
-      document.querySelector("h1").innerHTML = "DRAW";
-      document.querySelector(".grid-container").style.opacity = 0.6;
-      console.log(`Match draw.`);
-      return;
-    }
+    checkWinningCondition();
 
     document.querySelector("h1").innerHTML = xTurn ? "X Turn" : "O Turn";
   };
+}
+
+function checkWinningCondition() {
+  const winning_lines = getWinningLines();
+  if (winning_lines.length != 0) {
+    declareWinner(winning_lines);
+    setGameOver();
+    return;
+  }
+  if (allFull()) {
+    setGameOver();
+    document.querySelector("h1").innerHTML = "DRAW";
+    document.querySelector(".grid-container").style.opacity = 0.6;
+    console.log(`Match draw.`);
+    return;
+  }
+}
+
+function markPlayer(item, boxNumber) {
+  const playerMark = xTurn ? "x" : "o";
+  grid[boxNumber] = playerMark;
+  item.innerHTML = `<p>${playerMark}</p>`;
+  console.log(`${playerMark} played his move`);
 }
 
 document.querySelector("#reset").onclick = () => {
