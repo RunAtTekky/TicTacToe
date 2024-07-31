@@ -13,7 +13,7 @@ body {
 .big {
   height: 100vh;
   width: 100vw;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,8 +23,8 @@ body {
   height: 46vh;
   aspect-ratio: 1 / 1;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   column-gap: 1vw;
   row-gap: 1vh;
   padding: 1vh;
@@ -34,19 +34,24 @@ body {
 .grid-container > div {
   display: flex;
   aspect-ratio: 1 / 1;
-  background-color: 
-    rgba(170,10,40,0.66);
+  background-color: rgba(170, 10, 40, 0.66);
   box-shadow: 1px 3px black;
   font-size: 10vh;
-  color: rgba(0,0,0,1);
+  color: rgba(0, 0, 0, 1);
   border-radius: 15px;
   transition: all 0.3s ease-in;
 }
 
 .grid-container div:hover {
   color: white;
-  background-color: rgba(170,10,40,0.4);
+  background-color: rgba(170, 10, 40, 0.4);
   cursor: pointer;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 p {
@@ -56,6 +61,7 @@ p {
 h1 {
   position: fixed;
   margin-top: 12vh;
+  font-size: 32px;
 }
 
 .restart {
@@ -87,5 +93,5 @@ h1 {
 
 #reset:hover {
   cursor: pointer;
-  background-color: rgb(234,38,73,0.6);
+  background-color: rgb(234, 38, 73, 0.6);
 }
